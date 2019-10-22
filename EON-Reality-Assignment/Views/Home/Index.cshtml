@@ -1,0 +1,60 @@
+﻿@model IEnumerable<EON_Reality_Assignment.Models.RegisteredUsers>
+
+@{
+    ViewData["Title"] = "List Registred User";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>
+    <a asp-area="" asp-controller="Register" asp-action="Index">Register User</a>
+</p>
+<table class="table" id="datatable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmailAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RegisterDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SelectedDays)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdditionalRequest)
+            </th>
+        </tr>
+    </thead>
+</table>
+
+<link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+@section Scripts{
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#datatable').DataTable({
+                "ajax": {
+                    "url": "api/Users",
+                    "type": "GET",
+                    "datatype": "json",
+                    "dataSrc": ""
+                },
+                "columns": [
+                    { "data": "userName", "autoWidth": true },
+                    { "data": "emailAddress", "autoWidth": true },
+                    { "data": "gender", "autoWidth": true },
+                    { "data": "registerDate", "autoWidth": true },
+                    { "data": "selectedDays", "autoWidth": true },
+                    { "data": "additionalRequest", "autoWidth": true }
+                ]
+            });
+        });
+    </script>
+}  

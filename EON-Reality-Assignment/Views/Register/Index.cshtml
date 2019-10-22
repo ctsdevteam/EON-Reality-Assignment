@@ -1,0 +1,129 @@
+﻿@model EON_Reality_Assignment.Models.RegisteredUserModel
+
+@{
+    ViewData["Title"] = "Register User";
+}
+
+<style type="text/css">
+    label input[type=checkbox],
+    label input[type=radio] {
+        margin-right: 12px;
+    }
+
+    textarea {
+        max-width: 100%;
+    }
+</style>
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Index" method="post" class="form-horizontal" id="registerFormId">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label col-sm-3"></label>
+                <div class="col-sm-8">
+                    <input asp-for="UserName" class="form-control" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmailAddress" class="control-label col-sm-3"></label>
+                <div class="col-sm-8">
+                    <input asp-for="EmailAddress" class="form-control" />
+                    <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                </div>
+                
+            </div>
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label col-sm-3"></label>
+                <div class="col-sm-8">
+                    <label class="col-sm-6"><input asp-for="Gender" value="True" type="radio" />Male</label>
+                    <label class="col-sm-6"><input asp-for="Gender" value="False" type="radio" />Female</label>
+                </div>
+                
+            </div>
+            <div class="form-group">
+                <label asp-for="RegisterDate" class="control-label col-sm-3"></label>
+                <div class="col-sm-8">
+                    <input asp-for="RegisterDate" class="form-control" style="padding: 0px 12px;" min="2019-01-01" max="2019-12-31"/>
+                    <span asp-validation-for="RegisterDate" class="text-danger"></span>
+                </div>
+                
+            </div>
+            <div class="form-group">
+                <label asp-for="SelectedDays" class="control-label col-sm-3"></label>
+                <div class="col-sm-8">
+                    @for (var i = 0; i < Model.SelectedDays.Count; i++)
+                    {
+                    <label class="col-sm-6">
+                        <input type="hidden" asp-for="SelectedDays[i].Id"  />
+                        <input asp-for="SelectedDays[i].Selected" type="checkbox" index="@Model.SelectedDays[i].Id"/> @Model.SelectedDays[i].Name
+                    </label>
+                    }
+                    
+                    
+                    <div class="col-sm-12">
+                        <input type="hidden" id="txtCheckSelectedDaysRequired" name="txtCheckSelectedDaysRequired" />
+                        <span class="text-danger field-validation-valid" data-valmsg-for="txtCheckSelectedDaysRequired" data-valmsg-replace="true">
+                            <span id="txtCheckSelectedDaysRequired-error" class="" style="display:none;">The Selected Days field is required.</span>
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="form-group">
+                <label asp-for="AdditionalRequest" class="control-label col-sm-3"></label>
+                <div class="col-sm-8">
+                    <textarea asp-for="AdditionalRequest" class="form-control"></textarea>
+                    <span asp-validation-for="AdditionalRequest" class="text-danger"></span>
+                </div>
+                
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-8">
+                    <input type="submit" value="Submit" class="btn btn-success" id="btnSubmit"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+
+        $('input[type=checkbox]').click(function () {
+            var val = $(this).attr('index');
+            if ($(this).is(':checked')) {
+                $('#txtCheckSelectedDaysRequired').val($('#txtCheckSelectedDaysRequired').val() + val);
+            }
+            else {
+                var txt = $('#txtCheckSelectedDaysRequired').val();
+                if (txt.length > 0) {
+                    txt = txt.replace(val, '');
+                    $('#txtCheckSelectedDaysRequired').val(txt);
+                }
+            }
+        });
+
+        $(document).ready(function () {
+            $('#btnSubmit').click(function () {
+                var chk = $('#txtCheckSelectedDaysRequired').val();
+                if (chk) {
+                    $('#txtCheckSelectedDaysRequired-error').hide();
+                    return true;
+                }
+                else {
+                    $('#txtCheckSelectedDaysRequired-error').show();
+                    return false;
+                }
+
+            });
+        });   
+    </script>
+}
