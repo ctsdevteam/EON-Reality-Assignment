@@ -21,7 +21,8 @@ namespace EON_Reality_Assignment.Controllers
         [HttpGet]
         public IList<RegisteredUsers> Get()
         {
-            var registeredUser = _dbContext.tblRegisteredUsers.ToList();
+            var registeredUser = _dbContext.tblRegisteredUsers.
+                OrderByDescending(c => c.ID).ToList();
             IList<RegisteredUsers> userlst = registeredUser;
             foreach (RegisteredUsers user in userlst)
             {
