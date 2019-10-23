@@ -93,7 +93,7 @@ namespace EON_Reality_Assignment.Controllers
                 return false;
             }
 
-            if(model.RegisterDate < new  DateTime(2019,01,01) || model.RegisterDate < new DateTime(2019, 12, 31))
+            if(model.RegisterDate < new  DateTime(2019,01,01) || model.RegisterDate < new DateTime(2019, 06, 30))
             {
                 ModelState.AddModelError("", "Date is not in given range.");
             }
