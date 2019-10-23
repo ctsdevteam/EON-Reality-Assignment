@@ -53,6 +53,14 @@
                     { "data": "registerDate", "autoWidth": true },
                     { "data": "selectedDays", "autoWidth": true },
                     { "data": "additionalRequest", "autoWidth": true }
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return data ? 'M' : 'F';
+                        },
+                        "targets": 2
+                    }
                 ]
             });
         });
